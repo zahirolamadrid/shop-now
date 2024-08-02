@@ -2,11 +2,19 @@
   <div>
     <h1>Products</h1>
 
-    <div>
-    <div v-for="product in products" :key="product.id">
-      <h3>{{ product.title }}</h3>
-      <p>{{ product.price }}</p>
+    <div class="container">
+    <div class="row">
+      <div class="col-md-4" v-for="product in products" :key="product.id">
+        <div class="card">
+          <img :src="product.thumbnail" class="card-img-top" :alt="product.title">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <p class="card-text">Price: ${{ product.price }}</p>
+          </div>
+        </div>
       </div>
+    </div>
   </div>
   </div>
 </template>
