@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <h1>Products</h1>
-
-    <div class="container">
+  <div><div class="container">
     <div class="row">
       <div class="col-md-4 my-3" v-for="product in products" :key="product.id">
         <div class="card">
@@ -13,7 +10,7 @@
             <p class="card-text">Price: ${{ product.price }}</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
               <button class="btn btn-secondary me-md-2" type="button">Add to Cart</button>
-              <RouteLink to="/details" class="btn btn-primary" type="button">Details</RouteLink>
+              <RouterLink :to="{ name: 'product-details', params: {id: product.id}}" class="btn btn-primary" type="button">View Product</RouterLink>
             </div>
           </div>
         </div>
