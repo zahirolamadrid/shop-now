@@ -33,7 +33,12 @@ export default {
             for (let i = 1; i <= pageCount; i++) {
                 pageRange.push(i);
             }
-            return pageRange;
+            if (this.currentPage < 4) {
+                return pageRange.slice(0, 5);
+            } else {
+                return pageRange.slice(this.currentPage - 3, this.currentPage + 2);
+            }
+            
         }
     },
     methods: {
