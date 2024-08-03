@@ -2,7 +2,7 @@
   <div class="container mt-5">
     <div class="row">
       <div class="col-md-6">
-        <img :src="product.images" class="img-fluid" :alt="product.title">
+        <img :src="product.images[0]" class="img-fluid" :alt="product.title">
       </div>
       <div class="col-md-6">
         <h1 class="h2">{{ product.title }}</h1>
