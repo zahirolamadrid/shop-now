@@ -19,5 +19,8 @@ export const useCartStore = defineStore('cart', {
     isInCart(productId) {
       return this.cartItems.some(item => item.product.id === productId);
     },
+    emptyCart() {
+      this.cartItems = [];
+    },
   }
 });

@@ -16,7 +16,8 @@
                         <div>
                             <h6 class="my-0">{{ item.quantity }} x {{ item.product.title }}</h6>
                         </div>
-                        <span class="text-body-secondary">${{ calculateItemPrice(item.product.price, item.quantity) }}</span>
+                        <span class="text-body-secondary">${{ calculateItemPrice(item.product.price, item.quantity)
+                            }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <strong>Total (USD)</strong>
@@ -46,9 +47,9 @@
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
                             <div class="invalid-feedback">
-                                Please enter a valid email address for shipping updates.
+                                Please enter a valid email address.
                             </div>
                         </div>
 
@@ -132,8 +133,7 @@
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-primary btn-lg mb-4" type="submit"
-                        @click.prevent="searchProducts">Continue to checkout</button>
+                    <button class="w-100 btn btn-primary btn-lg mb-4" type="submit" @click="onSubmit">Checkout</button>
                 </form>
             </div>
         </div>
@@ -158,16 +158,27 @@ export default {
         };
     },
     computed: {
-    calculateTotal() {
-      return this.cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
-    }
-  },
+        calculateTotal() {
+            return this.cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+        }
+    },
     methods: {
         calculateItemPrice(price, quantity) {
-      return price * quantity;
-    },
-        validateForm() {
-            return;
+            return price * quantity;
+        },
+        onSubmit() {
+            const form = document.querySelector('.needs-validation');
+            const cartStore = useCartStore();
+
+            if (form.checkValidity()) {
+                form.classList.add('was-validated');
+                cartStore.emptyCart();
+                this.$router.push('/search');
+            } else {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            }
         }
     }
 }
