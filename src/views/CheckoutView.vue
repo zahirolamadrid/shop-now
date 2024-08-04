@@ -171,7 +171,7 @@ export default {
 
             if (form.checkValidity()) {
                 form.classList.add('was-validated');
-                this.$router.push('/search');
+                this.$router.push('/thanks');
             } else {
                 event.preventDefault();
                 event.stopPropagation();
