@@ -21,7 +21,7 @@
         <div class="position-relative">
           <div>
             <router-link class="nav-link" to="/cart">Cart <span
-                class="badge rounded-pill bg-danger">{{ cartItems.length }}</span></router-link>
+                class="badge rounded-pill bg-danger">{{ cartItemCount }}</span></router-link>
           </div>
         </div>
       </div>
@@ -31,25 +31,19 @@
 
 <script>
 import { useCartStore } from './../stores/cart';
+import { computed } from 'vue';
 
 export default {
 
   data() {
     const cartStore = useCartStore();
 
+    const cartItems = computed(() => cartStore.cartItems);
+    const cartItemCount = computed(() => cartItems.value.length);
+
     return {
-      cartItems: cartStore.cartItems
+      cartItemCount
     };
-  },
-  methods: {
-    removeItem(productId) {
-      // Remove the item from the cartItems array
-      this.cartItems = this.cartItems.filter(item => item.product.id !== productId);
-    },
-    calculateSubtotal() {
-      // Calculate the total price based on cart items
-      return this.cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
-    }
   }
 };
 </script>
