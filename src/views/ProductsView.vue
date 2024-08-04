@@ -10,7 +10,7 @@
               <p class="card-text">{{ product.description }}</p>
               <p class="card-text">Price: ${{ product.price }}</p>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-secondary me-md-2" type="button">Add to Cart</button>
+                <button class="btn btn-secondary me-md-2" type="button" @click="addToCart(product)">Add to Cart</button>
                 <RouterLink :to="{ name: 'product-details', params: { id: product.id } }" class="btn btn-primary"
                   type="button">View Product</RouterLink>
               </div>
@@ -30,6 +30,7 @@
 <script>
 import axios from 'axios';
 import Pagination from './../components/Pagination.vue';
+import { useCartStore } from './../stores/cart';
 
 export default {
   components: { Pagination },
@@ -53,6 +54,10 @@ export default {
         .catch(error => {
           console.error(error);
         });
+    },
+    addToCart(product) {
+      const cartStore = useCartStore();
+      cartStore.addProductToCart(product);
     }
   },
   mounted() {
