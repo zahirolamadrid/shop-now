@@ -33,14 +33,14 @@
         <div class="h-100 p-5 text-bg-dark rounded-3">
           <h2>Search Product</h2>
           <p>In this section you can search for the products you are interested in a faster way.</p>
-          <button class="btn btn-outline-light" type="button">Search</button>
+          <RouterLink to="/search" class="btn btn-outline-light" type="button">Search</RouterLink>
         </div>
       </div>
       <div class="col-md-6 mb-2">
         <div class="h-100 p-5 bg-body-tertiary border rounded-3">
           <h2>All Products</h2>
           <p>In this section you can view all the products we offer.</p>
-          <button class="btn btn-outline-secondary" type="button">All Products</button>
+          <RouterLink to="/products" class="btn btn-outline-secondary" type="button">All Products</RouterLink>
         </div>
       </div>
     </div>
@@ -90,5 +90,6 @@
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router';
 
 </script>
