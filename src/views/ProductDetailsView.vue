@@ -20,7 +20,8 @@
         <div v-if="product.availabilityStatus === 'Low Stock'" class="alert alert-warning" role="alert">
           Low Stock! Only {{ product.stock }} remaining.
         </div>
-        <button class="btn btn-secondary me-md-2" type="button" @click="addToCart(product)">Add to Cart</button>
+        <button v-if="!isInCart(product.id)" class="btn btn-secondary me-md-2" type="button" @click="addToCart(product)">Add to Cart</button>
+        <button v-if="isInCart(product.id)" class="btn btn-danger me-md-2" type="button" @click="removeItem(product.id)">Remove from Cart</button>
       </div>
     </div>
   </div>
@@ -49,6 +50,14 @@ export default {
     addToCart(product) {
       const cartStore = useCartStore();
       cartStore.addProductToCart(product);
+    },
+    removeItem(productId) {
+      const cartStore = useCartStore();
+      cartStore.removeItem(productId);
+    },
+    isInCart(productId) {
+      const cartStore = useCartStore();
+      return cartStore.isInCart(productId);
     }
   },
 };
