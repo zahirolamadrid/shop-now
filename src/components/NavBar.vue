@@ -9,17 +9,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <RouterLink class="nav-link" aria-current="page" href="/" to="/">Home</RouterLink>
+            <RouterLink class="nav-link" aria-current="page" to="/">Home</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" aria-current="page" href="/products" to="/products">Products</RouterLink>
+            <RouterLink class="nav-link" aria-current="page" to="/products">Products</RouterLink>
           </li>
           <li class="nav-item">
-            <RouterLink class="nav-link" aria-current="page" href="/search" to="/search">Search</RouterLink>
+            <RouterLink class="nav-link" aria-current="page" to="/search">Search</RouterLink>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/cart">Cart <span
-              class="badge rounded-pill bg-danger">{{ cartItemCount }}</span></router-link>
+            <router-link class="nav-link" to="/cart">Cart <span class="badge rounded-pill bg-danger">{{ cartItemCount
+                }}</span></router-link>
           </li>
         </ul>
       </div>

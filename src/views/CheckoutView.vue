@@ -168,11 +168,9 @@ export default {
         },
         onSubmit() {
             const form = document.querySelector('.needs-validation');
-            const cartStore = useCartStore();
 
             if (form.checkValidity()) {
                 form.classList.add('was-validated');
-                cartStore.emptyCart();
                 this.$router.push('/search');
             } else {
                 event.preventDefault();
