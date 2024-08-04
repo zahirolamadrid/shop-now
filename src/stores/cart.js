@@ -1,4 +1,3 @@
-import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useCartStore = defineStore('cart', {
@@ -14,5 +13,8 @@ export const useCartStore = defineStore('cart', {
           this.cartItems.push({ product, quantity: 1 });
         }
       },
-    }
+      removeItem(productId) {
+          this.cartItems = this.cartItems.filter(item => item.product.id !== productId);
+        },
+      }
   });
