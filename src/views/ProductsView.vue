@@ -21,13 +21,11 @@
     </div>
   </div>
 
-  <div>
+  <div v-if="totalPages > 1">
     <Pagination :current-page="currentPage" :total-pages="totalPages" @update:currentPage="currentPage = $event"></Pagination>
   </div>
 
 </template>
-
-
 
 <script>
 import axios from 'axios';
