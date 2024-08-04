@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <p class="text-muted">
             <span class="mx-2" v-if="product.discountPercentage > 0">
-              <s>${{ Math.round((100 * product.price) / (100 - product.discountPercentage) *100) / 100 }}</s>
+              <s>${{ Math.round((100 * product.price) / (100 - product.discountPercentage) * 100) / 100 }}</s>
             </span>
             <span class="font-weight-bold">
               <strong>${{ product.price }}</strong>
@@ -20,7 +20,7 @@
         <div v-if="product.availabilityStatus === 'Low Stock'" class="alert alert-warning" role="alert">
           Low Stock! Only {{ product.stock }} remaining.
         </div>
-        <button class="btn btn-primary">Add to Cart</button>
+        <button class="btn btn-secondary me-md-2" type="button" @click="addToCart(product)">Add to Cart</button>
       </div>
     </div>
   </div>
@@ -28,6 +28,7 @@
 
 <script>
 import axios from 'axios';
+import { useCartStore } from './../stores/cart';
 
 export default {
   data() {
@@ -36,14 +37,19 @@ export default {
     };
   },
   created() {
-      axios.get('https://dummyjson.com/products/' + this.$route.params.id)
-        .then(response => {
-          this.product = response.data;
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    axios.get('https://dummyjson.com/products/' + this.$route.params.id)
+      .then(response => {
+        this.product = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  methods: {
+    addToCart(product) {
+      const cartStore = useCartStore();
+      cartStore.addProductToCart(product);
     }
+  },
 };
 </script>
-
