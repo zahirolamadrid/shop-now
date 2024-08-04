@@ -10,14 +10,14 @@
                 <h6>{{ item.product.title }}</h6>
                 <p class="card-text">{{ item.product.description }}</p>
               </div>
-              <div>
-                <input type="number" v-model="item.quantity" min="1" class="form-control" style="width: 60px;">
-                <button class="btn btn-danger btn-sm" @click="removeItem(item.product.id)">Remove</button>
-              </div>
             </div>
-            <p class="card-text">Price: ${{ item.product.price * item.quantity }}</p>
-            <router-link :to="{ name: 'product-details', params: { id: item.product.id } }"
-              class="btn btn-primary btn-sm">View Product</router-link>
+            <p class="card-text">Price: ${{ calculateItemPrice(item.product.price, item.quantity).toFixed(2) }}</p>
+            <div class="d-flex justify-content-between">
+              <router-link :to="{ name: 'product-details', params: { id: item.product.id } }"
+                class="btn btn-primary">View Product</router-link>
+              <input type="number" v-model="item.quantity" min="1" class="form-control" style="width: 60px;">
+              <button class="btn btn-danger" @click="removeItem(item.product.id)">Remove</button>
+            </div>
           </div>
         </div>
       </div>
@@ -26,9 +26,9 @@
           <div class="card-body">
             <h5 class="card-title">Cart Summary</h5>
             <ul class="list-group">
-              <li class="list-group-item">Total: ${{ calculateTotal() }}</li>
+              <li class="list-group-item">Total: ${{ calculateTotal().toFixed(2) }}</li>
             </ul>
-            <button class="btn btn-success btn-block">Checkout</button>
+            <button class="mt-2 btn btn-success btn-block">Checkout</button>
           </div>
         </div>
       </div>
@@ -42,8 +42,10 @@ import { useCartStore } from './../stores/cart';
 export default {
 
   data() {
+    const cartStore = useCartStore();
+
     return {
-      cartItems: useCartStore().cartItems
+      cartItems: cartStore.cartItems
     };
   },
   methods: {
@@ -51,8 +53,12 @@ export default {
       return this.cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
     },
     removeItem(productId) {
-      useCartStore().removeItem(productId);
-      this.cartItems = useCartStore().cartItems
+      const cartStore = useCartStore();
+      cartStore.removeItem(productId);
+      this.cartItems = cartStore.cartItems
+    },
+    calculateItemPrice(price, quantity) {
+      return price * quantity;
     }
   }
 };
