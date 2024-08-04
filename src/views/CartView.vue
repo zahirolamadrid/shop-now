@@ -7,7 +7,7 @@
           <div class="card-body">
             <div class="d-flex justify-content-between">
               <div>
-                <h6>{{ item.product.title }}</h6>
+                <h6><strong>{{ item.product.title }}</strong></h6>
                 <p class="card-text">{{ item.product.description }}</p>
               </div>
             </div>
@@ -28,7 +28,7 @@
             <ul class="list-group">
               <li class="list-group-item">Total: ${{ calculateTotal().toFixed(2) }}</li>
             </ul>
-            <button class="mt-2 btn btn-success btn-block">Checkout</button>
+            <RouterLink class="mt-2 btn btn-success btn-block" to="/checkout">Checkout</RouterLink>
           </div>
         </div>
       </div>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
 import { useCartStore } from './../stores/cart';
 
 export default {

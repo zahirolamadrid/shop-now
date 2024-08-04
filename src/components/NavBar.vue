@@ -17,13 +17,11 @@
           <li class="nav-item">
             <RouterLink class="nav-link" aria-current="page" href="/search" to="/search">Search</RouterLink>
           </li>
-        </ul>
-        <div class="position-relative">
-          <div>
+          <li class="nav-item">
             <router-link class="nav-link" to="/cart">Cart <span
-                class="badge rounded-pill bg-danger">{{ cartItemCount }}</span></router-link>
-          </div>
-        </div>
+              class="badge rounded-pill bg-danger">{{ cartItemCount }}</span></router-link>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
