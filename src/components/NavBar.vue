@@ -31,8 +31,7 @@ export default {
   data() {
     const cartStore = useCartStore();
 
-    const cartItems = computed(() => cartStore.cartItems);
-    const cartItemCount = computed(() => cartItems.value.length);
+    const cartItemCount = computed(() => cartStore.cartItemCount);
 
     return {
       cartItemCount
