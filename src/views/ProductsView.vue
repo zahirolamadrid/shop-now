@@ -11,6 +11,18 @@
               <p class="card-text">Price: ${{ product.price }}</p>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-secondary me-md-2" type="button" @click="addToCart(product)">Add to Cart</button>
+                <div class="toast-container position-fixed top-0 end-0 p-3">
+                  <div id="productAddedToast" class="toast text-bg-success" data-bs-delay="2000" role="alert"
+                    aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                      <div class="toast-body">
+                        The product has been added!
+                      </div>
+                      <button type="button" class="btn-close me-2 m-auto btn-close-white" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                    </div>
+                  </div>
+                </div>
                 <RouterLink :to="{ name: 'product-details', params: { id: product.id } }" class="btn btn-primary"
                   type="button">View Product</RouterLink>
               </div>
@@ -22,7 +34,8 @@
   </div>
 
   <div v-if="totalPages > 1">
-    <Pagination :current-page="currentPage" :total-pages="totalPages" @update:currentPage="currentPage = $event"></Pagination>
+    <Pagination :current-page="currentPage" :total-pages="totalPages" @update:currentPage="currentPage = $event">
+    </Pagination>
   </div>
 
 </template>
@@ -31,9 +44,13 @@
 import axios from 'axios';
 import Pagination from './../components/Pagination.vue';
 import { useCartStore } from './../stores/cart';
+import bootstrap from 'bootstrap/dist/js/bootstrap.min';
 
 export default {
   components: { Pagination },
+
+
+
   data() {
     return {
       products: [],
@@ -58,6 +75,10 @@ export default {
     addToCart(product) {
       const cartStore = useCartStore();
       cartStore.addProductToCart(product);
+
+      const productAddedToast = document.getElementById('productAddedToast')
+      const toast = bootstrap.Toast.getOrCreateInstance(productAddedToast)
+      toast.show();
     }
   },
   mounted() {
