@@ -16,7 +16,7 @@
                         <div>
                             <h6 class="my-0">{{ item.quantity }} x {{ item.product.title }}</h6>
                         </div>
-                        <span class="text-body-secondary">${{ calculateItemPrice(item.product.price, item.quantity)
+                        <span class="text-body-secondary">${{ calculateItemPrice(item.product.price, item.quantity).toFixed(2)
                             }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
@@ -150,7 +150,7 @@ export default {
         const cartStore = useCartStore();
 
         const cartItems = computed(() => cartStore.cartItems);
-        const cartItemCount = computed(() => cartItems.value.length);
+        const cartItemCount = computed(() => cartStore.cartItemCount);
 
         return {
             cartItems,
