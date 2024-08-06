@@ -33,5 +33,10 @@ export const useCartStore = defineStore('cart', {
       });
       this.cartItemCount = cartItemCount;
     },
+    updateQuantity(productId, quantity) {
+      const product = this.cartItems.find(item => item.product.id === productId);
+      product.quantity = Number(quantity);
+      this.calculateCartItemCounty();
+    }
   }
 });

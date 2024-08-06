@@ -15,7 +15,7 @@
             <div class="d-flex justify-content-between">
               <router-link :to="{ name: 'product-details', params: { id: item.product.id } }"
                 class="btn btn-primary">View Product</router-link>
-              <input type="number" v-model="item.quantity" min="1" class="form-control" style="width: 60px;">
+              <input type="number" v-model="item.quantity" min="1" class="form-control" style="width: 60px;" @input="updateQuantity(item.product.id, $event.target.value)">
               <button class="btn btn-danger" @click="removeItem(item.product.id)">Remove</button>
             </div>
           </div>
@@ -60,6 +60,10 @@ export default {
     },
     calculateItemPrice(price, quantity) {
       return price * quantity;
+    },
+    updateQuantity(productId, quantity){
+      const cartStore = useCartStore();
+      cartStore.updateQuantity(productId, quantity);
     }
   }
 };
