@@ -20,7 +20,7 @@
         <div v-if="product.availabilityStatus === 'Low Stock'" class="alert alert-warning" role="alert">
           Low Stock! Only {{ product.stock }} remaining.
         </div>
-        <div class="d-flex">
+        <div class="d-flex mb-3">
           <button v-if="!isInCart(product.id)" class="btn btn-secondary me-md-2" type="button"
             @click="addToCart(product)">Add to Cart</button>
           <input v-if="isInCart(product.id)" type="number" min="1" class="form-control" v-model="quantity"
@@ -28,7 +28,6 @@
           <button v-if="isInCart(product.id)" class="btn btn-danger me-md-2 mx-2" type="button"
             @click="removeItem(product.id)">Remove from Cart</button>
         </div>
-
       </div>
     </div>
   </div>
