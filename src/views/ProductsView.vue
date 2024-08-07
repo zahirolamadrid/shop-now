@@ -49,8 +49,6 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.min';
 export default {
   components: { Pagination },
 
-
-
   data() {
     return {
       products: [],

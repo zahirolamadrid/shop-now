@@ -37,6 +37,13 @@ export const useCartStore = defineStore('cart', {
       const product = this.cartItems.find(item => item.product.id === productId);
       product.quantity = Number(quantity);
       this.calculateCartItemCounty();
+    },
+    getQuantity(productId) {
+      const item = this.cartItems.find(item => item.product.id === productId);
+      if (item.quantity)
+        return item.quantity;
+      else
+        return 0;
     }
   }
 });

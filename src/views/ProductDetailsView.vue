@@ -20,8 +20,15 @@
         <div v-if="product.availabilityStatus === 'Low Stock'" class="alert alert-warning" role="alert">
           Low Stock! Only {{ product.stock }} remaining.
         </div>
-        <button v-if="!isInCart(product.id)" class="btn btn-secondary me-md-2" type="button" @click="addToCart(product)">Add to Cart</button>
-        <button v-if="isInCart(product.id)" class="btn btn-danger me-md-2" type="button" @click="removeItem(product.id)">Remove from Cart</button>
+        <div class="d-flex">
+          <button v-if="!isInCart(product.id)" class="btn btn-secondary me-md-2" type="button"
+            @click="addToCart(product)">Add to Cart</button>
+          <input v-if="isInCart(product.id)" type="number" min="1" class="form-control" v-model="quantity"
+            style="width: 60px;" @input="updateQuantity(product.id, $event.target.value)">
+          <button v-if="isInCart(product.id)" class="btn btn-danger me-md-2 mx-2" type="button"
+            @click="removeItem(product.id)">Remove from Cart</button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -34,13 +41,16 @@ import { useCartStore } from './../stores/cart';
 export default {
   data() {
     return {
-      product: {}
+      product: {},
+      quantity: 0
     };
   },
   created() {
     axios.get('https://dummyjson.com/products/' + this.$route.params.id)
       .then(response => {
+        const cartStore = useCartStore();
         this.product = response.data;
+        this.quantity = cartStore.getQuantity(this.product.id);
       })
       .catch(error => {
         console.error(error);
@@ -50,14 +60,20 @@ export default {
     addToCart(product) {
       const cartStore = useCartStore();
       cartStore.addProductToCart(product);
+      this.quantity = 1;
     },
     removeItem(productId) {
       const cartStore = useCartStore();
       cartStore.removeItem(productId);
+      this.quantity = 0;
     },
     isInCart(productId) {
       const cartStore = useCartStore();
       return cartStore.isInCart(productId);
+    },
+    updateQuantity(productId, quantity){
+      const cartStore = useCartStore();
+      cartStore.updateQuantity(productId, quantity);
     }
   },
 };
