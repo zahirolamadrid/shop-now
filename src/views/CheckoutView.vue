@@ -16,7 +16,8 @@
                         <div>
                             <h6 class="my-0">{{ item.quantity }} x {{ item.product.title }}</h6>
                         </div>
-                        <span class="text-body-secondary">${{ calculateItemPrice(item.product.price, item.quantity).toFixed(2)
+                        <span class="text-body-secondary">${{ calculateItemPrice(item.product.price,
+                            item.quantity).toFixed(2)
                             }}</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
@@ -47,7 +48,8 @@
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com"
+                                @change="validateEmail" required>
                             <div class="invalid-feedback">
                                 Please enter a valid email address.
                             </div>
@@ -165,6 +167,18 @@ export default {
     methods: {
         calculateItemPrice(price, quantity) {
             return price * quantity;
+        },
+        validateEmail() {
+            const email = document.getElementById('email');
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+            email.addEventListener('input', function () {
+                if (emailRegex.test(this.value)) {
+                    this.setCustomValidity('');
+                } else {
+                    this.setCustomValidity('Please enter a valid email address');
+                }
+            });
         },
         onSubmit() {
             const form = document.querySelector('.needs-validation');
