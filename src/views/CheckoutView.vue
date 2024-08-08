@@ -48,8 +48,8 @@
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com"
-                                @change="validateEmail" required>
+                            <input type="email" class="form-control" id="email" v-model="email"
+                                placeholder="you@example.com" @change="validateEmail" required>
                             <div class="invalid-feedback">
                                 Please enter a valid email address.
                             </div>
@@ -110,7 +110,8 @@
 
                         <div class="col-md-6">
                             <label for="cc-number" class="form-label">Credit card number</label>
-                            <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                            <input type="text" class="form-control" id="cc-number" placeholder=""
+                                v-model="creditCardNumber" @change="validateCreditCardNumber" required>
                             <div class="invalid-feedback">
                                 Credit card number is required
                             </div>
@@ -146,6 +147,7 @@
 <script>
 import { useCartStore } from './../stores/cart';
 import { computed } from 'vue';
+import { ref, watch } from 'vue'
 
 export default {
     data() {
@@ -155,6 +157,8 @@ export default {
         const cartItemCount = computed(() => cartStore.cartItemCount);
 
         return {
+            email: ref(''),
+            creditCardNumber: ref(''),
             cartItems,
             cartItemCount
         };
@@ -169,20 +173,33 @@ export default {
             return price * quantity;
         },
         validateEmail() {
-            const email = document.getElementById('email');
+            const emailInput = document.getElementById('email');
             const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-            email.addEventListener('input', function () {
-                if (emailRegex.test(this.value)) {
-                    this.setCustomValidity('');
-                } else {
-                    this.setCustomValidity('Please enter a valid email address');
-                }
-            });
+            if (emailRegex.test(this.email)) {
+                emailInput.setCustomValidity('');
+            } else {
+                emailInput.setCustomValidity('Please enter a valid email address');
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        },
+        validateCreditCardNumber() {
+            const creditCardNumberInput = document.getElementById('cc-number');
+            const creditCardRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
+
+            if (creditCardRegex.test(this.creditCardNumber)) {
+                creditCardNumberInput.setCustomValidity('');
+            } else {
+                creditCardNumberInput.setCustomValidity('Please enter a valid credit card number');
+                event.preventDefault();
+                event.stopPropagation();
+            }
         },
         onSubmit() {
             const form = document.querySelector('.needs-validation');
-
+            this.validateEmail();
+            this.validateCreditCardNumber();
             if (form.checkValidity()) {
                 form.classList.add('was-validated');
                 this.$router.push('/thanks');
@@ -192,7 +209,15 @@ export default {
                 form.classList.add('was-validated');
             }
         }
-    }
+    },
+    watch: {
+        email(newEmail, oldEmail) {
+            this.validateEmail();
+        },
+        creditCardNumber(newCreditCardNumber, OldCreditCardNumber) {
+            this.validateCreditCardNumber();
+        }
+    },
 }
 </script>
 
