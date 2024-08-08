@@ -127,7 +127,7 @@
 
                         <div class="col-md-3">
                             <label for="cc-cvv" class="form-label">CVV</label>
-                            <input type="text" class="form-control" id="cc-cvv" placeholder="" v-model="cvv" required>
+                            <input type="password" class="form-control" id="cc-cvv" placeholder="" v-model="cvv" required>
                             <div class="invalid-feedback">
                                 Please enter a valid CVV.
                             </div>
