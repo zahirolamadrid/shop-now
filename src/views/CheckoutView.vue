@@ -49,7 +49,7 @@
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" v-model="email"
-                                placeholder="you@example.com" @change="validateEmail" required>
+                                placeholder="you@example.com" required>
                             <div class="invalid-feedback">
                                 Please enter a valid email address.
                             </div>
@@ -87,9 +87,9 @@
 
                         <div class="col-md-3">
                             <label for="zip" class="form-label">Zip</label>
-                            <input type="text" class="form-control" id="zip" placeholder="12345" required>
+                            <input type="text" class="form-control" id="zip" placeholder="12345" v-model="zipCode" required>
                             <div class="invalid-feedback">
-                                Zip code required.
+                                Please enter a valid zip code.
                             </div>
                         </div>
                     </div>
@@ -111,9 +111,9 @@
                         <div class="col-md-6">
                             <label for="cc-number" class="form-label">Credit card number</label>
                             <input type="text" class="form-control" id="cc-number" placeholder=""
-                                v-model="creditCardNumber" @change="validateCreditCardNumber" required>
+                                v-model="creditCardNumber" required>
                             <div class="invalid-feedback">
-                                Credit card number is required
+                                Please enter a valid credit card number.
                             </div>
                         </div>
 
@@ -127,9 +127,9 @@
 
                         <div class="col-md-3">
                             <label for="cc-cvv" class="form-label">CVV</label>
-                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                            <input type="text" class="form-control" id="cc-cvv" placeholder="" v-model="cvv" required>
                             <div class="invalid-feedback">
-                                Security code required
+                                Please enter a valid CVV.
                             </div>
                         </div>
                     </div>
@@ -146,8 +146,7 @@
 
 <script>
 import { useCartStore } from './../stores/cart';
-import { computed } from 'vue';
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue';
 
 export default {
     data() {
@@ -159,6 +158,8 @@ export default {
         return {
             email: ref(''),
             creditCardNumber: ref(''),
+            zipCode: ref(''),
+            cvv: ref(''),
             cartItems,
             cartItemCount
         };
@@ -184,6 +185,30 @@ export default {
                 event.stopPropagation();
             }
         },
+        validateZipCode() {
+            const zipCodeInput = document.getElementById('zip');
+            const zipCodeRegex = /^\d{5}(?:[-]\d{4})?$/;
+
+            if (zipCodeRegex.test(this.zipCode)) {
+                zipCodeInput.setCustomValidity('');
+            } else {
+                zipCodeInput.setCustomValidity('Please enter a valid zip code. Formats: 12345, 12345-6789 or 12345 1234');
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        },
+        validateCVV() {
+            const cvvInput = document.getElementById('cc-cvv');
+            const cvvRegex = /^\d{3}$/;
+
+            if (cvvRegex.test(this.cvv)) {
+                cvvInput.setCustomValidity('');
+            } else {
+                cvvInput.setCustomValidity('Please enter a valid CVV code.');
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        },
         validateCreditCardNumber() {
             const creditCardNumberInput = document.getElementById('cc-number');
             const creditCardRegex = /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/;
@@ -200,6 +225,8 @@ export default {
             const form = document.querySelector('.needs-validation');
             this.validateEmail();
             this.validateCreditCardNumber();
+            this.validateZipCode();
+            this.validateCVV();
             if (form.checkValidity()) {
                 form.classList.add('was-validated');
                 this.$router.push('/thanks');
@@ -211,12 +238,18 @@ export default {
         }
     },
     watch: {
-        email(newEmail, oldEmail) {
+        email(newValue, oldValue) {
             this.validateEmail();
         },
-        creditCardNumber(newCreditCardNumber, OldCreditCardNumber) {
+        creditCardNumber(newValue, oldValue) {
             this.validateCreditCardNumber();
-        }
+        },
+        zipCode(newValue, oldValue) {
+            this.validateZipCode();
+        },
+        cvv(newValue, oldValue) {
+            this.validateCVV();
+        },
     },
 }
 </script>
