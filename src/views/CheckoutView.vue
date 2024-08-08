@@ -81,13 +81,14 @@
                                 <option>Florida</option>
                             </select>
                             <div class="invalid-feedback">
-                                Please provide a valid state.
+                                Please select a state.
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <label for="zip" class="form-label">Zip</label>
-                            <input type="text" class="form-control" id="zip" placeholder="12345" v-model="zipCode" required>
+                            <input type="text" class="form-control" id="zip" placeholder="12345" v-model="zipCode"
+                                required>
                             <div class="invalid-feedback">
                                 Please enter a valid zip code.
                             </div>
@@ -117,17 +118,27 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
-                            <label for="cc-expiration" class="form-label">Expiration</label>
-                            <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                        <div class="col-md-2">
+                            <label for="cc-expiration-month" class="form-label">Exp Month</label>
+                            <input type="text" class="form-control" id="cc-expiration-month" placeholder="MM"
+                                v-model="expMonth" required>
                             <div class="invalid-feedback">
-                                Expiration date required
+                                Please enter a valid month.
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="cc-expiration-year" class="form-label">Exp Year</label>
+                            <input type="text" class="form-control" id="cc-expiration-year" placeholder="YY"
+                                v-model="expYear" required>
+                            <div class="invalid-feedback">
+                                Please enter a valid year.
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="cc-cvv" class="form-label">CVV</label>
-                            <input type="password" class="form-control" id="cc-cvv" placeholder="" v-model="cvv" required>
+                            <input type="password" class="form-control" id="cc-cvv" placeholder="" v-model="cvv"
+                                required>
                             <div class="invalid-feedback">
                                 Please enter a valid CVV.
                             </div>
@@ -160,6 +171,8 @@ export default {
             creditCardNumber: ref(''),
             zipCode: ref(''),
             cvv: ref(''),
+            expMonth: ref(''),
+            expYear: ref(''),
             cartItems,
             cartItemCount
         };
@@ -197,6 +210,30 @@ export default {
                 event.stopPropagation();
             }
         },
+        validateExpMonth() {
+            const expMonthInput = document.getElementById('cc-expiration-month');
+            const expMonthRegex = /^\d{2}$/;
+
+            if (expMonthRegex.test(this.expMonth) && parseInt(this.expMonth, 10) >= 1 && parseInt(this.expMonth, 10) <= 12) {
+                expMonthInput.setCustomValidity('');
+            } else {
+                expMonthInput.setCustomValidity('Please enter a valid month.');
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        },
+        validateExpYear() {
+            const expYearInput = document.getElementById('cc-expiration-year');
+            const expYearRegex = /^\d{2}$/;
+
+            if (expYearRegex.test(this.expYear) && parseInt(this.expYear, 10) >= 24 && parseInt(this.expYear, 10) <= 99) {
+                expYearInput.setCustomValidity('');
+            } else {
+                expYearInput.setCustomValidity('Please enter a valid year.');
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        },
         validateCVV() {
             const cvvInput = document.getElementById('cc-cvv');
             const cvvRegex = /^\d{3}$/;
@@ -227,6 +264,8 @@ export default {
             this.validateCreditCardNumber();
             this.validateZipCode();
             this.validateCVV();
+            this.validateExpMonth()
+            this.validateExpYear()
             if (form.checkValidity()) {
                 form.classList.add('was-validated');
                 this.$router.push('/thanks');
@@ -249,6 +288,12 @@ export default {
         },
         cvv(newValue, oldValue) {
             this.validateCVV();
+        },
+        expMonth(newValue, oldValue) {
+            this.validateExpMonth();
+        },
+        expYear(newValue, oldValue) {
+            this.validateExpYear();
         },
     },
 }
