@@ -24,7 +24,7 @@ export const useCartStore = defineStore('cart', {
     },
     emptyCart() {
       this.cartItems = [];
-      this.totalQuantity = 0;
+      this.cartItemCount = 0;
     },
     calculateCartItemCounty() {
       let cartItemCount = 0;

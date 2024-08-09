@@ -19,7 +19,7 @@
 import { RouterLink } from 'vue-router';
 import { useCartStore } from '../stores/cart';
 
-export default{
+export default {
     mounted() {
         const cartStore = useCartStore();
         cartStore.emptyCart();
