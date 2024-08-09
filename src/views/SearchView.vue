@@ -40,10 +40,6 @@
         </div>
       </div>
     </div>
-    <div v-if="totalPages > 1">
-      <Pagination :current-page="currentPage" :total-pages="totalPages" @update:currentPage="currentPage = $event">
-      </Pagination>
-    </div>
   </div>
 </template>
 
@@ -60,20 +56,16 @@ export default {
       searchQuery: '',
       products: [],
       filteredProducts: [],
-      limit: 12,
-      currentPage: 1,
-      totalPages: 0,
-      skip: 0
+      limit: 50
     };
   },
   methods: {
     searchProducts() {
-      this.skip = (this.currentPage - 1) * this.limit;
-      const url = `https://dummyjson.com/products/search?q=${this.searchQuery}&limit=${this.limit}&skip=${this.skip}`;
+      const url = `https://dummyjson.com/products/search?q=${this.searchQuery}&limit=${this.limit}`;
       axios.get(url)
         .then(response => {
-          this.filteredProducts = response.data.products;
-          this.totalPages = response.data.total / this.limit;
+          this.products = response.data.products;
+          this.filteredProducts = this.products.filter((product) => product.title.toLowerCase().includes(this.searchQuery));
         })
         .catch(error => {
           console.error(error);

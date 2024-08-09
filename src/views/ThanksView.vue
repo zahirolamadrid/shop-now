@@ -21,11 +21,10 @@ import { useCartStore } from '../stores/cart';
 
 export default{
     mounted() {
-        const cartStore = useCartStore()
+        const cartStore = useCartStore();
         cartStore.emptyCart();
     },
 };
-
 
 </script>
 
